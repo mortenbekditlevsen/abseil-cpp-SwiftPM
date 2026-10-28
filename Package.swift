@@ -31,6 +31,36 @@ let package = Package(
         "absl/base/spinlock_test_common.cc",
         "absl/base/internal/exception_safety_testing.cc",
         "absl/random/benchmarks.cc",
+        // Not sources. SwiftPM on Linux tries to compile every file it
+        // doesn't recognize.
+        "absl/abseil.podspec.gen.py",
+        "absl/flags/flag_benchmark.lds",
+        // Textually included fragments, not translation units. SwiftPM on
+        // Linux would otherwise try to compile them.
+        "absl/base/internal/spinlock_akaros.inc",
+        "absl/base/internal/spinlock_linux.inc",
+        "absl/base/internal/spinlock_posix.inc",
+        "absl/base/internal/spinlock_win32.inc",
+        "absl/debugging/internal/stacktrace_aarch64-inl.inc",
+        "absl/debugging/internal/stacktrace_arm-inl.inc",
+        "absl/debugging/internal/stacktrace_emscripten-inl.inc",
+        "absl/debugging/internal/stacktrace_generic-inl.inc",
+        "absl/debugging/internal/stacktrace_powerpc-inl.inc",
+        "absl/debugging/internal/stacktrace_riscv-inl.inc",
+        "absl/debugging/internal/stacktrace_unimplemented-inl.inc",
+        "absl/debugging/internal/stacktrace_win32-inl.inc",
+        "absl/debugging/internal/stacktrace_x86-inl.inc",
+        "absl/debugging/symbolize_darwin.inc",
+        "absl/debugging/symbolize_elf.inc",
+        "absl/debugging/symbolize_emscripten.inc",
+        "absl/debugging/symbolize_unimplemented.inc",
+        "absl/debugging/symbolize_win32.inc",
+        "absl/log/check_test_impl.inc",
+        "absl/log/log_basic_test_impl.inc",
+        "absl/numeric/int128_have_intrinsic.inc",
+        "absl/numeric/int128_no_intrinsic.inc",
+        "absl/time/internal/get_current_time_chrono.inc",
+        "absl/time/internal/get_current_time_posix.inc",
       ],
       sources: [
         "absl/"

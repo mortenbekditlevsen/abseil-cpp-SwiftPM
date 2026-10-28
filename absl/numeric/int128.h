@@ -1178,11 +1178,20 @@ constexpr int64_t BitCastToSigned(uint64_t v) {
 
 }  // namespace int128_internal
 
+// SwiftPM's generated umbrella module map makes these .inc files part of the
+// `abseil` module; textual inclusion inside the namespace is intended.
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmodules-import-nested-redundant"
+#endif
 #if defined(ABSL_HAVE_INTRINSIC_INT128)
 #include "absl/numeric/int128_have_intrinsic.inc"  // IWYU pragma: export
 #else  // ABSL_HAVE_INTRINSIC_INT128
 #include "absl/numeric/int128_no_intrinsic.inc"  // IWYU pragma: export
 #endif  // ABSL_HAVE_INTRINSIC_INT128
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 ABSL_NAMESPACE_END
 }  // namespace absl
