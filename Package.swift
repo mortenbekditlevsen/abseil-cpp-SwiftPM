@@ -22,6 +22,10 @@ let package = Package(
         // main functions
         // tests
         "absl/random/benchmarks.cc",
+        // Only abseil's own tests and benchmarks use it, and its static
+        // initializer runs a timing benchmark (rdtsc on x86-64) at load time,
+        // which crashes in Android's x86-64 emulator.
+        "absl/random/internal/nanobenchmark.cc",
         // .inc files
         "absl/debugging/internal/stacktrace_win32-inl.inc",
         "absl/debugging/internal/stacktrace_riscv-inl.inc",
@@ -61,6 +65,9 @@ let package = Package(
       ],
       linkerSettings: [
         .linkedFramework("CoreFoundation"),
+        // The Android log sink (absl/log/internal/log_sink_set.cc) calls
+        // __android_log_write.
+        .linkedLibrary("log", .when(platforms: [.android])),
       ]
     ),
     .testTarget(
