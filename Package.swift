@@ -54,7 +54,8 @@ let package = Package(
         "absl/abseil.podspec.gen.py",
       ],
       sources: [
-        "absl/"
+        // Not "absl/": SwiftPM on Windows ignores paths that end in "/".
+        "absl"
       ],
       resources: [
         .copy("PrivacyInfo.xcprivacy"),
@@ -62,6 +63,13 @@ let package = Package(
       publicHeadersPath: ".",
       cSettings: [
         .headerSearchPath("./"),
+        // The defines abseil's own build uses on Windows (absl/copts).
+        // NOMINMAX: windows.h's max() macro breaks numeric_limits<>::max().
+        .define("NOMINMAX", .when(platforms: [.windows])),
+        .define("WIN32_LEAN_AND_MEAN", .when(platforms: [.windows])),
+        .define("_CRT_SECURE_NO_WARNINGS", .when(platforms: [.windows])),
+        .define("_SCL_SECURE_NO_WARNINGS", .when(platforms: [.windows])),
+        .define("_ENABLE_EXTENDED_ALIGNED_STORAGE", .when(platforms: [.windows])),
       ],
       linkerSettings: [
         .linkedFramework("CoreFoundation"),
